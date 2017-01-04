@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ "$#" != 1 ];then
+	echo You must give the version number, e.g. 7
+	exit
+fi
+
+if [ "$1" == 7 ];then
+	JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-amd64
+elif [ "$1" == 6 ];then
+	JAVA_HOME=/usr/lib/jvm/jdk-6-oracle-x64
+	
+else
+	echo unknown version $1
+	exit
+fi
+
+export JRE_HOME=$JAVA_HOME/jre
+export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH
+export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
