@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Ideally, it's better to execute this script in an empty direcory, as it creates some files and searche some of them by regular expression.
+
 set -e
 
 adb pull system/app/ app/
