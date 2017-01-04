@@ -10,10 +10,14 @@ mkdir public_keys
 for i in `find -name \*.apk`;do
 	# extract public key
 	tmpdir=$(mktemp -d)
-	unzip $i META-INF/CERT.RSA -d $tmpdir
+	certfile="META-INF/CERT.RSA"
+	if ! unzip $i $certfile -d $tmpdir;then
+		unzip $i META-INF/TPKEY.RSA -d $tmpdir
+		certfile="META-INF/TPKEY.RSA"
+	fi
 	filename=$(echo $i | sed -E 's#./(.*)#\1#g' | tr '/' '-')
 	filepath=public_keys/$filename
-	openssl pkcs7 -in $tmpdir/META-INF/CERT.RSA -print_certs -inform DER > $filepath
+	openssl pkcs7 -in $tmpdir/$certfile -print_certs -inform DER > $filepath
 
 	# classify them
 	if [ "$(find -name type\*)" ];then
